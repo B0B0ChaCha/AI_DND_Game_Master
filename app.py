@@ -1,12 +1,12 @@
 import random
 import re
 import streamlit as st
+from datetime import datetime
 from ai_service import get_ai_response, detect_roll_request
 from game_state import (
     get_default_game_state,
-    save_game_state,
-    load_game_state,
-    delete_save_file
+    convert_game_state_to_json,
+    load_game_state_from_uploaded_file
 )
 
 
@@ -42,10 +42,10 @@ def roll_d20():
 
     return roll, outcome
 
-# ---------------------------------------------------------
-# Check if player is dead
-# ---------------------------------------------------------
 
+# ---------------------------------------------------------
+# Player Death Check
+# ---------------------------------------------------------
 def is_player_dead():
     """
     Returns True if the player's health is 0 or below.
@@ -106,13 +106,11 @@ def initialize_new_game():
     st.session_state.pending_action = None
 
 
-def load_saved_game():
+def initialize_loaded_game(game_state):
     """
-    Loads the saved game state from save_data.json.
-    If no save file exists, it loads the default game state.
+    Loads a game state into Streamlit session state.
+    If the save has no messages, it creates a resume message instead of losing the state.
     """
-
-    game_state = load_game_state()
 
     if "messages" not in game_state:
         game_state["messages"] = []
@@ -121,10 +119,32 @@ def load_saved_game():
         game_state["awaiting_roll"] = None
 
     if len(game_state["messages"]) == 0:
-        starting_message = create_starting_message(game_state)
+        resume_message = f"""
+Location: {game_state["location"]}
+Health: {game_state["health"]}
+Inventory: {", ".join(game_state["inventory"])}
+Dice Roll: None
+Result: Loaded Save
+
+Story:
+Your saved adventure has been loaded, but this save file does not contain the previous story log.
+
+Objective:
+{game_state["objective"]}
+
+ROLL_REQUEST: NO
+
+Choices:
+1. Continue exploring the area.
+2. Check your surroundings.
+3. Review your objective.
+
+Or type your own action.
+"""
+
         game_state["messages"].append({
             "role": "game_master",
-            "content": starting_message
+            "content": resume_message
         })
 
     st.session_state.game_state = game_state
@@ -190,7 +210,6 @@ def format_ai_response_for_display(ai_response):
     if not ai_response:
         return ai_response
 
-    # Put main state fields on separate lines if compressed.
     labels = [
         "Health:",
         "Inventory:",
@@ -206,20 +225,23 @@ def format_ai_response_for_display(ai_response):
     ]
 
     for label in labels:
-        ai_response = re.sub(rf"\s+{re.escape(label)}", f"\n{label}", ai_response)
+        ai_response = re.sub(
+            rf"\s+{re.escape(label)}",
+            f"\n{label}",
+            ai_response
+        )
 
-    # Add a blank line before major sections.
     ai_response = re.sub(r"\nStory:", "\n\nStory:", ai_response)
     ai_response = re.sub(r"\nObjective:", "\n\nObjective:", ai_response)
     ai_response = re.sub(r"\nROLL_REQUEST:", "\n\nROLL_REQUEST:", ai_response)
     ai_response = re.sub(r"\nChoices:", "\n\nChoices:", ai_response)
 
-    # Fix common compressed roll request blocks.
     ai_response = re.sub(
         r"ROLL_REQUEST:\s*YES\s*CHECK_TYPE:",
         "ROLL_REQUEST: YES\nCHECK_TYPE:",
         ai_response
     )
+
     ai_response = re.sub(
         r"ROLL_REQUEST:\s*NO\s*Choices:",
         "ROLL_REQUEST: NO\n\nChoices:",
@@ -238,30 +260,31 @@ def update_game_state_from_ai_response(ai_response):
     if not ai_response or ai_response.startswith("Error:"):
         return
 
-    # Location - stop if another label appears on the same line.
     location_match = re.search(
         r"Location:\s*(.*?)(?=\n|Health:|Inventory:|Dice Roll:|Result:|Story:|Objective:|ROLL_REQUEST:|$)",
         ai_response,
         re.IGNORECASE | re.DOTALL
     )
+
     if location_match:
         location = location_match.group(1).strip()
         if location:
             st.session_state.game_state["location"] = location
 
-    # Health
     health_match = re.search(r"Health:\s*(\d+)", ai_response, re.IGNORECASE)
+
     if health_match:
         st.session_state.game_state["health"] = int(health_match.group(1))
 
-    # Inventory - stop before next label.
     inventory_match = re.search(
         r"Inventory:\s*(.*?)(?=\n|Dice Roll:|Result:|Story:|Objective:|ROLL_REQUEST:|Choices:|$)",
         ai_response,
         re.IGNORECASE | re.DOTALL
     )
+
     if inventory_match:
         inventory_text = inventory_match.group(1).strip()
+
         if inventory_text:
             inventory_items = [
                 item.strip()
@@ -272,12 +295,12 @@ def update_game_state_from_ai_response(ai_response):
             if inventory_items:
                 st.session_state.game_state["inventory"] = inventory_items
 
-    # Objective - stop before roll request or choices.
     objective_match = re.search(
         r"Objective:\s*(.*?)(?=\n\s*ROLL_REQUEST:|\n\s*Choices:|$)",
         ai_response,
         re.IGNORECASE | re.DOTALL
     )
+
     if objective_match:
         objective = objective_match.group(1).strip()
         if objective:
@@ -430,6 +453,10 @@ def hide_interactive_ui():
         div[data-testid="stCheckbox"] {
             display: none !important;
         }
+
+        div[data-testid="stFileUploader"] {
+            display: none !important;
+        }
         </style>
         """,
         unsafe_allow_html=True
@@ -446,7 +473,7 @@ if "pending_action" not in st.session_state:
     st.session_state.pending_action = None
 
 if "game_state" not in st.session_state:
-    load_saved_game()
+    initialize_new_game()
 
 
 # ---------------------------------------------------------
@@ -463,8 +490,6 @@ if st.session_state.pending_action is not None:
     )
 
     display_adventure_log()
-
-    
 
     st.info("The Game Master is thinking. Please wait...")
 
@@ -521,34 +546,54 @@ with st.sidebar:
     st.write(f"**Inventory:** {', '.join(st.session_state.game_state['inventory'])}")
     st.write(f"**Objective:** {st.session_state.game_state['objective']}")
 
+    save_metadata = st.session_state.game_state.get("save_metadata", {})
+
+    if save_metadata.get("saved_at"):
+        st.write(f"**Loaded Save Time:** {save_metadata['saved_at']}")
+        st.write(f"**Save Version:** {save_metadata.get('version', 'Unknown')}")
+
     st.divider()
 
     st.subheader("Dice Outcome Rules")
-    st.write("1–5: Failure")
-    st.write("6–10: Partial Success")
-    st.write("11–15: Success")
-    st.write("16–20: Great Success")
+    st.write("1-5: Failure")
+    st.write("6-10: Partial Success")
+    st.write("11-15: Success")
+    st.write("16-20: Great Success")
 
     st.divider()
 
     if st.session_state.game_state.get("awaiting_roll") is None:
-        if st.button("Save Game"):
-            save_game_state(st.session_state.game_state)
-            st.success("Game saved successfully.")
+        save_json = convert_game_state_to_json(st.session_state.game_state)
 
-        if st.button("Load Game"):
-            load_saved_game()
-            st.success("Game loaded successfully.")
-            st.rerun()
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        safe_location = st.session_state.game_state["location"].replace(" ", "_").replace("/", "_")
+
+        st.download_button(
+            label="Download Save File",
+            data=save_json,
+            file_name=f"ai_dnd_save_{safe_location}_{timestamp}.json",
+            mime="application/json"
+        )
+
+        uploaded_save_file = st.file_uploader(
+            "Choose Save File",
+            type=["json"],
+            key="save_file_uploader"
+        )
+
+        if uploaded_save_file is not None:
+            if st.button("Load Selected Save File"):
+                loaded_game_state = load_game_state_from_uploaded_file(uploaded_save_file)
+
+                message_count = len(loaded_game_state.get("messages", []))
+
+                initialize_loaded_game(loaded_game_state)
+
+                st.success(f"Save file loaded successfully. Restored {message_count} story messages.")
+                st.rerun()
 
         if st.button("Restart Game"):
             initialize_new_game()
-            st.rerun()
-
-        if st.button("Delete Save File"):
-            delete_save_file()
-            initialize_new_game()
-            st.warning("Save file deleted. New game started.")
             st.rerun()
     else:
         st.info("Resolve the dice roll before using save/load controls.")
@@ -565,6 +610,7 @@ if is_player_dead():
         st.rerun()
 
     st.stop()
+
 
 # ---------------------------------------------------------
 # Display Conversation

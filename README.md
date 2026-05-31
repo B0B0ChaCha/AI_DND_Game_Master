@@ -10,9 +10,10 @@ Environment: .env file
 
 The project uses a D&D-style fantasy Game Master system because it gives the AI a clear role and purpose. Instead of acting as a general chatbot, the AI must narrate a fantasy adventure, respond to player actions, control NPCs, and keep the story within the selected world. The theme is restricted to a fantasy village, forest, ruins, and dungeon so that the AI is less likely to go off-topic or hallucinate unrelated scenarios.
 
+When players want to take a break, they can just save the game (left side panel) to download the data JSON file (saved with data, time stamp). This allows them to keep track and continue from the session they were in.
+
 ## 1. Project Title and Description
 AI Text Adventure Game Master is a text-based adventure game where an AI narrates the story and responds to the player's actions. It is designed for players who enjoy interactive story games.
-
 
 ## 2. Problem Statement
 Traditional text adventure games usually have fixed responses and limited choices. This project uses AI to make the story more flexible, allowing players to type their own actions and receive dynamic responses.
