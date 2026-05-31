@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.pyc
+save_data.json
+#.streamlit/
+.venv
