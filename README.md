@@ -50,6 +50,8 @@ AI output: The Game Master lists the player's current items and asks what the pl
 - Save and load player progress.
 - Add a visual map or inventory panel.
 
+## 9. Streamlit cloud
+https://aidndgamemaster.streamlit.app/
 
 ## 9. Test Cases
 
@@ -61,3 +63,5 @@ AI output: The Game Master lists the player's current items and asks what the pl
 | TC04 - Combat Action | I attack the creature with my small knife. | AI handles combat and updates the story or health. | Passed - AI described the combat result and continued the story. |
 | TC05 - Out-of-Scope Input | What is the capital of Japan? | AI should not answer like a normal chatbot and should guide the player back to the adventure. | Passed - AI redirected the player back to the game. |
 | TC06 - Missing API Key | Remove or rename GEMINI_API_KEY in `.env`, then submit any input. | App shows a clear error message instead of crashing. | Passed - App displayed missing API key error. |
+
+
