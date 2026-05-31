@@ -1,7 +1,7 @@
 # SETUP
 Language: Python
 Frontend: Streamlit
-AI API: Google Gemini or Groq
+AI API: Google Gemini
 Environment: .env file
 
 # AI Text Adventure Game Master (Something like DND)
@@ -49,6 +49,7 @@ AI output: The Game Master lists the player's current items and asks what the pl
 - Add multiple selectable game worlds.
 - Save and load player progress.
 - Add a visual map or inventory panel.
+- Win condition
 
 ## 9. Streamlit cloud
 https://aidndgamemaster.streamlit.app/
