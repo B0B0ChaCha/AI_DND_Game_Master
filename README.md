@@ -5,7 +5,9 @@ AI API: Google Gemini
 Environment: .env file
 
 # AI Text Adventure Game Master (Something like DND)
-
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Model](https://img.shields.io/badge/Model-Gemini-orange)
+![Status](https://img.shields.io/badge/Status-Ongoing-yellow)
 ![Image Overview on how it looks](D&D_Game_Master_Bot_Link.png)
 
 ## Design Decision
@@ -66,5 +68,13 @@ https://aidndgamemaster.streamlit.app/
 | TC04 - Combat Action | I attack the creature with my small knife. | AI handles combat and updates the story or health. | Passed - AI described the combat result and continued the story. |
 | TC05 - Out-of-Scope Input | What is the capital of Japan? | AI should not answer like a normal chatbot and should guide the player back to the adventure. | Passed - AI redirected the player back to the game. |
 | TC06 - Missing API Key | Remove or rename GEMINI_API_KEY in `.env`, then submit any input. | App shows a clear error message instead of crashing. | Passed - App displayed missing API key error. |
+
+## About the author
+**Vanessa Chua** — [LinkedIn](www.linkedin.com/in/vanessa-chua-siew-jin) · [GitHub]
+(https://github.com/B0B0ChaCha)
+
+## License
+[MIT](LICENSE)
+
 
 
