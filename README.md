@@ -6,6 +6,8 @@ Environment: .env file
 
 # AI Text Adventure Game Master (Something like DND)
 
+![Image Overview on how it looks](D&D_Game_Master_Bot_Link.png)
+
 ## Design Decision
 
 The project uses a D&D-style fantasy Game Master system because it gives the AI a clear role and purpose. Instead of acting as a general chatbot, the AI must narrate a fantasy adventure, respond to player actions, control NPCs, and keep the story within the selected world. The theme is restricted to a fantasy village, forest, ruins, and dungeon so that the AI is less likely to go off-topic or hallucinate unrelated scenarios.
