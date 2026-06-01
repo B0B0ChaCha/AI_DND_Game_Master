@@ -70,8 +70,9 @@ https://aidndgamemaster.streamlit.app/
 | TC06 - Missing API Key | Remove or rename GEMINI_API_KEY in `.env`, then submit any input. | App shows a clear error message instead of crashing. | Passed - App displayed missing API key error. |
 
 ## About the author
-**Vanessa Chua** — [LinkedIn](www.linkedin.com/in/vanessa-chua-siew-jin) · [GitHub]
-(https://github.com/B0B0ChaCha)
+**Vanessa Chua** 
+*[LinkedIn](www.linkedin.com/in/vanessa-chua-siew-jin)
+*[GitHub](https://github.com/B0B0ChaCha)
 
 ## License
 [MIT](LICENSE)
