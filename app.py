@@ -19,6 +19,7 @@ from ui_components import (
     hide_interactive_ui,
     render_choice_buttons,
     render_game_over_screen,
+    render_game_completed_screen,
     render_header,
     render_player_input_form,
     render_roll_ui,
@@ -73,6 +74,9 @@ def main() -> None:
 
     render_header()
     render_sidebar()
+
+    if st.session_state.game_state.get("game_completed"):
+        render_game_completed_screen()
 
     if is_player_dead():
         render_game_over_screen()

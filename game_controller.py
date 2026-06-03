@@ -40,6 +40,20 @@ def build_dice_text(should_roll: bool) -> str:
 
 def submit_player_action(player_action: str, should_roll: bool = False) -> None:
     """Submit the player's action, call the AI, and update game state."""
+
+# DEBUG
+    if player_action.strip() == "":
+        st.warning("Please enter an action first.")
+        return
+
+    if handle_debug_code(player_action):
+        return
+
+    if is_duplicate_player_action(player_action):
+        st.warning("This action was already submitted. Please wait for the Game Master response.")
+        return
+# DEBUG
+
     if player_action.strip() == "":
         st.warning("Please enter an action first.")
         return
@@ -122,3 +136,20 @@ def create_roll_resolution_action(roll_data: dict) -> str:
         Narrate the result based on this dice roll.
         Do not ask for another roll immediately unless a new risky action happens after this result.
         """.strip()
+
+
+#DEBUG FUNCTIONS
+def handle_debug_code(player_action: str) -> bool:
+    command = player_action.strip().lower()
+
+    if command == "/debug win":
+        st.session_state.game_state["game_completed"] = True
+        st.session_state.game_state["ending"] = "Debug win condition triggered."
+        return True
+
+    if command == "/debug lose":
+        st.session_state.game_state["health"] = 0
+        st.session_state.game_state["ending"] = "Debug lose condition triggered."
+        return True
+
+    return False

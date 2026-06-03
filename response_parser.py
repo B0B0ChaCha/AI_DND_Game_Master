@@ -90,6 +90,16 @@ def apply_ai_response_to_game_state(game_state: dict, ai_response: str) -> dict:
     """Update game_state with Location, Health, Inventory, and Objective from AI text."""
     if not ai_response or ai_response.startswith("Error:"):
         return game_state
+    
+    completed_match = re.search(r"GAME_COMPLETED:\s*YES", ai_response, re.IGNORECASE)
+
+    if completed_match:
+        game_state["game_completed"] = True
+
+    ending_match = re.search(r"ENDING:\s*(.*?)(?=\n|$)", ai_response, re.IGNORECASE)
+
+    if ending_match:
+        game_state["ending"] = ending_match.group(1).strip()
 
     location_match = re.search(
         r"Location:\s*(.*?)(?=\n|Health:|Inventory:|Dice Roll:|Result:|Story:|Objective:|ROLL_REQUEST:|$)",

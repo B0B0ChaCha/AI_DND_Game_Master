@@ -125,6 +125,22 @@ def render_game_over_screen() -> None:
 
     st.stop()
 
+def render_game_completed_screen() -> None:
+    """Render final victory controls."""
+    st.success("🏆 Adventure Complete!")
+    st.write("You have completed the main objective.")
+
+    ending = st.session_state.game_state.get("ending")
+
+    if ending:
+        st.write(ending)
+
+    if st.button("Start New Adventure"):
+        initialize_new_game()
+        st.rerun()
+
+    st.stop()
+
 
 def render_roll_ui() -> None:
     """Render the required D20 roll UI."""

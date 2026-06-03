@@ -17,6 +17,8 @@ def get_default_game_state():
         "messages": [],
         "awaiting_roll": None,
         "npcs": {},
+        "game_completed": False,
+        "ending": None,
         "save_metadata": {
             "saved_at": None
         }
