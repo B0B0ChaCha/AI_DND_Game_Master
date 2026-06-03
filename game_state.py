@@ -16,10 +16,9 @@ def get_default_game_state():
         "objective": "Investigate the mysterious curse affecting the village",
         "messages": [],
         "awaiting_roll": None,
+        "npcs": {},
         "save_metadata": {
-            "save_name": "New Adventure",
-            "saved_at": None,
-            "version": "1.0"
+            "saved_at": None
         }
     }
 
@@ -60,6 +59,9 @@ def normalize_game_state(game_state):
     if game_state["awaiting_roll"] is not None and not isinstance(game_state["awaiting_roll"], dict):
         game_state["awaiting_roll"] = None
 
+    if "npcs" not in game_state or not isinstance(game_state["npcs"], dict):
+        game_state["npcs"] = {}
+
     if not isinstance(game_state["save_metadata"], dict):
         game_state["save_metadata"] = default_state["save_metadata"]
 
@@ -81,9 +83,7 @@ def convert_game_state_to_json(game_state):
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     normalized_state["save_metadata"] = {
-        "save_name": f"{normalized_state['player_name']} - {normalized_state['location']}",
         "saved_at": current_time,
-        "version": "1.0"
     }
 
     return json.dumps(normalized_state, indent=4)
