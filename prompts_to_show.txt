@@ -1,5 +1,32 @@
-Relationship check:
+1. Create NPC
+"Before entering the village..."
 
-Before entering the village, I enter a shop nearby and greet the shopkeeper politely
-I Scolded him for looking weird
+2. Gain relationship
+"I help the shopkeeper..."
 
+3. Lose relationship
+"I steal a healing potion..."
+
+4. Return to NPC
+"I ask the shopkeeper for help."
+
+5. Location change
+"I follow the forest path..."
+
+6. Inventory update
+"I search the abandoned wagon."
+
+7. Dice roll
+"I sneak past the guards."
+
+8. Health loss
+"I jump into the cursed well."
+
+9. Health gain
+"I drink my Small Healing Potion."
+
+10. Debug Win
+/debug win
+
+11. Debug Lose
+/debug lose
