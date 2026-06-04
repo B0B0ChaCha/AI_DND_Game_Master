@@ -1,27 +1,26 @@
 1. Create NPC
-"Before entering the village, I met someone"
+"Before entering the village, I walk into a nearby shop and introduce myself to the shopkeeper."
 
 2. Gain relationship
-"I help the shopkeeper..."
+"I help the shopkeeper carry several heavy crates into his storage room."
 
 3. Lose relationship
-"I steal a healing potion..."
+"I secretly steal a healing potion from the shopkeeper while he is distracted."
 
 4. Return to NPC
-"I ask the shopkeeper for help."
+"I return to the shopkeeper and ask him for help."
 
 5. Location change
-"I follow the forest path..."
+"I follow the forest path deeper into the woods."
 
 6. Inventory update
-"I search the abandoned wagon."
+"I search the abandoned wagon beside the road."
 
 7. Dice roll
-"I sneak past the guards."
-Visit a shop and try to sneak and steal a sword
+"I attempt to sneak into the shop and steal a sword without being noticed."
 
 8. Health loss
-"I jump into the cursed well."
+"I jump into the cursed well to investigate the strange noises below."
 
 9. Health gain
 "I drink my Small Healing Potion."
