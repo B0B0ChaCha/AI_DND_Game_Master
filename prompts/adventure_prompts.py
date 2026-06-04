@@ -1,3 +1,5 @@
+""""""
+
 from services.npc_memory import format_npc_memory_for_prompt
 
 def create_starting_message(game_state: dict) -> str:

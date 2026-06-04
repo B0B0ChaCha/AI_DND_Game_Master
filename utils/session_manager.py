@@ -1,9 +1,7 @@
-"""Streamlit session-state setup and validation helpers."""
-
 import streamlit as st
 
 from models.game_state import get_default_game_state, normalize_game_state
-from prompts import create_resume_message, create_starting_message
+from prompts.adventure_prompts import create_resume_message, create_starting_message
 
 
 def initialize_new_game() -> None:

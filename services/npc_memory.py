@@ -1,3 +1,5 @@
+""" NPC Memory, creation and updates"""
+
 def get_attitude_from_relationship(relationship):
     if relationship <= -30:
         return "hostile"

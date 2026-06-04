@@ -1,4 +1,4 @@
-"""Reusable Streamlit UI sections for the adventure app."""
+""" Streamlit UI sections."""
 
 from datetime import datetime
 

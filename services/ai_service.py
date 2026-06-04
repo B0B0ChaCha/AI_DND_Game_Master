@@ -1,9 +1,10 @@
+"""LLM, running the rules and prompts on gemini and getting the AI response"""
 import os
 import re
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from config import GEMINI_MODEL_NAME
+from config.config import GEMINI_MODEL_NAME
 
 load_dotenv()
 

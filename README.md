@@ -106,10 +106,12 @@ This structure separates the project by responsibility:
 
 ## 5. Setup Instructions
 1. Clone the repository.
-2. Install dependencies using `pip install -r requirements.txt`.
-3. Copy `.env.example` and rename it to `.env`.
-4. Add your Gemini API key into the `.env` file.
-5. Run the app using `streamlit run app.py`.
+2. Create Virtual environment in CMD using `python -m venv venv`.
+3. Activate Virtual environment in CMD using `.venv\Scripts\activate`
+4. Install dependencies in your virtual environment using `pip install -r requirements.txt`.
+5. Copy `.env.example` and rename it to `.env`.
+6. Add your Gemini API key into the `.env` file. (Gemini API key get it from Google AI studio)
+7. Run the app using `streamlit run app.py`.
 
 ## 6. Usage Examples
 Example 1:
@@ -128,6 +130,7 @@ AI output: The Game Master lists the player's current items and asks what the pl
 - The game relies on an external LLM API and is subject to internet connectivity and API quota limitations.
 - Combat is narrative-driven and does not currently use a dedicated combat statistics system.
 - The game currently supports only a single-player experience.
+- As it gets longer, it might slowed down the web page as there are too many information showing.
 
 ## 8. Future Improvements
 - Add character creation with races, classes, and starting attributes.
@@ -138,6 +141,7 @@ AI output: The Game Master lists the player's current items and asks what the pl
 - Support multiplayer cooperative storytelling.
 - Reduce AI inconsistencies through additional validation and world-state management.
 - Add visual components (Image generation) such as maps, character panels, and inventory interfaces.
+- Clean parts of UI that the player does not know, for example roll request, NPC created.
 
 ## 9. Streamlit cloud
 https://aidndgamemaster.streamlit.app/

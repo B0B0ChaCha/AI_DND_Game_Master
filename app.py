@@ -1,20 +1,9 @@
-"""Main Streamlit entry point for the AI D&D-style adventure game.
-
-This file intentionally stays small. Feature work should usually go into:
-- ui_components.py for Streamlit UI sections
-- game_controller.py for turn-processing logic
-- session_manager.py for session state
-- response_parser.py for AI response cleanup/parsing
-- ai_service.py for model/API calls
-- game_state.py for save data structure and JSON loading
-"""
-
 import streamlit as st
 
-from constants import PAGE_ICON, PAGE_TITLE
-from game_controller import submit_player_action
-from session_manager import ensure_session_state, is_player_dead, is_waiting_for_game_master
-from ui_components import (
+from config.constants import PAGE_ICON, PAGE_TITLE
+from services.game_controller import submit_player_action
+from utils.session_manager import ensure_session_state, is_player_dead, is_waiting_for_game_master
+from ui.ui_components import (
     display_adventure_log,
     hide_interactive_ui,
     render_choice_buttons,

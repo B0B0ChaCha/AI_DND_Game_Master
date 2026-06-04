@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from ai_service import detect_roll_request, get_ai_response
+from services.ai_service import detect_roll_request, get_ai_response
 from utils.dice import roll_d20
 from prompts.adventure_prompts import build_ai_prompt
 from parsers.response_parser import (
@@ -125,16 +125,16 @@ def create_roll_resolution_action(roll_data: dict) -> str:
     roll, outcome = roll_d20()
 
     return f"""
-        The player rolled a D20.
+The player rolled a D20.
 
-        Check Type: {roll_data['check_type']}
-        Difficulty: {roll_data['difficulty']}
-        Reason: {roll_data['reason']}
-        Dice Roll: {roll}
-        Outcome: {outcome}
+Check Type: {roll_data['check_type']}
+Difficulty: {roll_data['difficulty']}
+Reason: {roll_data['reason']}
+Dice Roll: {roll}
+Outcome: {outcome}
 
-        Narrate the result based on this dice roll.
-        Do not ask for another roll immediately unless a new risky action happens after this result.
+Narrate the result based on this dice roll.
+Do not ask for another roll immediately unless a new risky action happens after this result.
         """.strip()
 
 
