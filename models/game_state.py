@@ -1,4 +1,3 @@
-# game_state.py
 import json
 from datetime import datetime
 

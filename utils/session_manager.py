@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from game_state import get_default_game_state, normalize_game_state
+from models.game_state import get_default_game_state, normalize_game_state
 from prompts import create_resume_message, create_starting_message
 
 

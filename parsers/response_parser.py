@@ -1,7 +1,7 @@
 """Helpers for cleaning and extracting structured data from AI responses."""
 
 import re
-from npc_memory import create_or_update_npc, add_npc_memory
+from services.npc_memory import create_or_update_npc, add_npc_memory
 
 RESPONSE_LABELS = [
     "Health:",

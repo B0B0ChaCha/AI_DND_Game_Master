@@ -1,5 +1,3 @@
-"""App-wide constants used by the Streamlit adventure game."""
-
 APP_TITLE = "🎲 AI D&D-Style Game Master"
 APP_DESCRIPTION = "Type your action and let the AI Game Master decide when a dice roll is needed."
 PAGE_TITLE = "AI D&D-Style Game Master"

@@ -1,12 +1,9 @@
-# ai_service.py
-# permanent AI rules
-# dice rules
-# NPC memory output format
 import os
 import re
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from config import GEMINI_MODEL_NAME
 
 load_dotenv()
 
@@ -282,7 +279,7 @@ def get_ai_response(conversation_history, user_input):
             """
 
         response = client.models.generate_content(
-            model="gemma-4-26b-a4b-it",
+            model=GEMINI_MODEL_NAME,
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT

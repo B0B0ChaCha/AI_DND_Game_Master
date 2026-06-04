@@ -4,10 +4,10 @@ from datetime import datetime
 
 import streamlit as st
 
-from constants import APP_DESCRIPTION, APP_TITLE, DICE_OUTCOME_RULES
-from game_controller import create_roll_resolution_action, queue_action
-from game_state import convert_game_state_to_json, load_game_state_from_uploaded_file
-from session_manager import initialize_loaded_game, initialize_new_game
+from config.constants import APP_DESCRIPTION, APP_TITLE, DICE_OUTCOME_RULES
+from services.game_controller import create_roll_resolution_action, queue_action
+from models.game_state import convert_game_state_to_json, load_game_state_from_uploaded_file
+from utils.session_manager import initialize_loaded_game, initialize_new_game
 
 
 def render_header() -> None:

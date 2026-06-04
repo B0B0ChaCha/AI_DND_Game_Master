@@ -1,0 +1,1 @@
+GEMINI_MODEL_NAME = "gemma-4-26b-a4b-it"

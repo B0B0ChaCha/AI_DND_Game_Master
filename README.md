@@ -29,14 +29,89 @@ Traditional text adventure games usually have fixed responses and limited choice
 - python-dotenv
 - GitHub
 
-## 4. Setup Instructions
+## 4. Project Structure
+
+```text
+AI_DND_Game_Master/
+├── app.py
+├── README.md
+├── requirements.txt
+├── LICENSE
+├── .env
+├── .gitignore
+│
+├── config/
+│   ├── config.py
+│   └── constants.py
+│
+├── services/
+│   ├── ai_service.py
+│   ├── game_controller.py
+│   └── npc_memory.py
+│
+├── models/
+│   └── game_state.py
+│
+├── parsers/
+│   └── response_parser.py
+│
+├── prompts/
+│   └── adventure_prompts.py
+│
+├── ui/
+│   └── ui_components.py
+│
+├── utils/
+│   ├── dice.py
+│   └── session_manager.py
+│
+├── assets/
+│   └── D&D_Game_Master_Bot_Link.png
+│
+└── docs/
+    ├── prompts_to_show.txt
+    └── test_inputs.txt
+```
+
+### Folder and File Purpose
+
+| Folder / File | Purpose |
+|---|---|
+| `app.py` | Main Streamlit entry point that starts the application and controls the high-level app flow. |
+| `README.md` | Project documentation, setup guide, limitations, and test cases. |
+| `requirements.txt` | Lists the Python packages needed to run the project. |
+| `LICENSE` | Contains the project license information. |
+| `.gitignore` | Tells Git which files and folders should be ignored, such as `.env`, `.venv`, and cache files. |
+| `config/config.py` | Stores adjustable settings such as the Gemini model name. |
+| `config/constants.py` | Stores constant UI text and fixed values such as the app title and dice outcome rules. |
+| `services/ai_service.py` | Handles communication with the Gemini API and stores the main AI system prompt rules. |
+| `services/game_controller.py` | Controls the turn flow, including player actions, dice results, AI calls, and state updates. |
+| `services/npc_memory.py` | Manages NPC creation, relationship values, attitudes, and memory formatting. |
+| `models/game_state.py` | Creates, normalizes, saves, and loads the game state JSON data. |
+| `parsers/response_parser.py` | Parses AI responses for health, inventory, location, dice requests, NPC updates, and win/loss states. |
+| `prompts/adventure_prompts.py` | Builds the current turn prompt using player action, dice result, game state, and NPC memory. |
+| `ui/ui_components.py` | Renders the header, sidebar, adventure log, save/load controls, dice UI, and player input form. |
+| `utils/dice.py` | Handles D20 dice rolling and dice outcome categories. |
+| `utils/session_manager.py` | Manages Streamlit session state, new game initialization, loaded games, and conversation history. |
+| `docs/prompts_to_show.txt` | Contains demo prompts used during presentation or testing. |
+| `docs/test_inputs.txt` | Contains sample user inputs for manual testing. |
+
+This structure separates the project by responsibility:
+- `models` = game data
+- `services` = main logic
+- `utils` = helper tools
+- `ui` = Streamlit display
+- `prompts` = AI prompt construction
+- `parsers` = AI response extraction
+
+## 5. Setup Instructions
 1. Clone the repository.
 2. Install dependencies using `pip install -r requirements.txt`.
 3. Copy `.env.example` and rename it to `.env`.
 4. Add your Gemini API key into the `.env` file.
 5. Run the app using `streamlit run app.py`.
 
-## 5. Usage Examples
+## 6. Usage Examples
 Example 1:
 User input: I walk into the forest.
 AI output: The Game Master describes the forest and updates the player's location.
@@ -45,20 +120,29 @@ Example 2:
 User input: I check my inventory.
 AI output: The Game Master lists the player's current items and asks what the player wants to do next.
 
-## 6. Known Limitations
-- The AI may sometimes forget small details if the conversation becomes too long.
-- The game world is limited to the rules described in the system prompt.
+## 7. Known Limitations
+- Limited character customization (players cannot create custom races, classes, or attributes).
+- No structured RPG progression system such as levels, skills, or experience points.
+- NPC memory currently uses a basic relationship-based system and does not support complex long-term memories.
+- AI responses are non-deterministic and may occasionally generate inconsistent story details.
+- The game relies on an external LLM API and is subject to internet connectivity and API quota limitations.
+- Combat is narrative-driven and does not currently use a dedicated combat statistics system.
+- The game currently supports only a single-player experience.
 
-## 7. Future Improvements
-- Add multiple selectable game worlds.
-- Save and load player progress.
-- Add a visual map or inventory panel.
-- Win condition
+## 8. Future Improvements
+- Add character creation with races, classes, and starting attributes.
+- Implement a structured RPG progression system with levels, skills, and experience points.
+- Expand the NPC memory system with long-term relationships and faction reputation.
+- Introduce a dedicated combat system with weapons, armor, and combat statistics.
+- Add multiple story settings and campaign themes.
+- Support multiplayer cooperative storytelling.
+- Reduce AI inconsistencies through additional validation and world-state management.
+- Add visual components (Image generation) such as maps, character panels, and inventory interfaces.
 
 ## 9. Streamlit cloud
 https://aidndgamemaster.streamlit.app/
 
-## 9. Test Cases
+## 10. Test Cases
 
 | Test Case | Input | Expected Output | Actual Output |
 |---|---|---|---|

@@ -1,10 +1,4 @@
-# current player action
-# current dice result
-# current game state
-# current saved NPC memory
-
-"""Prompt templates for starting/resuming the adventure and calling the AI."""
-from npc_memory import format_npc_memory_for_prompt
+from services.npc_memory import format_npc_memory_for_prompt
 
 def create_starting_message(game_state: dict) -> str:
     """Create the first Game Master message for a new adventure."""

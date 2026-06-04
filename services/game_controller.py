@@ -3,14 +3,14 @@
 import streamlit as st
 
 from ai_service import detect_roll_request, get_ai_response
-from dice import roll_d20
-from prompts import build_ai_prompt
-from response_parser import (
+from utils.dice import roll_d20
+from prompts.adventure_prompts import build_ai_prompt
+from parsers.response_parser import (
     apply_ai_response_to_game_state,
     format_ai_response_for_display,
     update_npc_memory_from_ai_response,
 )
-from session_manager import (
+from utils.session_manager import (
     get_conversation_history,
     is_duplicate_player_action,
     is_waiting_for_game_master,
